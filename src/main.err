@@ -1,0 +1,18 @@
+*** Error 18 "main.c" Line 6(10,23): File can not be opened
+    Not in local "stm32f4xx.h"
+    Not in local "C:\Users\User\Desktop\DENEYLER\ccs cs\proje2\stm32f4xx.h"
+    Not in last "stm32f4xx.h"
+    Not in project "C:\Users\User\Desktop\Atollic Deney\STM32_Register_Servo_Kontrol\src\stm32f4xx.h"
+    Not in ";C:\Program Files (x86)\PICC\Devices\stm32f4xx.h"
+    Not in "C:\Program Files (x86)\PICC\Drivers\stm32f4xx.h"
+*** Error 18 "main.c" Line 7(10,31): File can not be opened
+    Not in local "stm32f4_discovery.h"
+    Not in local "C:\Users\User\Desktop\DENEYLER\ccs cs\proje2\stm32f4_discovery.h"
+    Not in last "stm32f4_discovery.h"
+    Not in project "C:\Users\User\Desktop\Atollic Deney\STM32_Register_Servo_Kontrol\src\stm32f4_discovery.h"
+    Not in ";C:\Program Files (x86)\PICC\Devices\stm32f4_discovery.h"
+    Not in "C:\Program Files (x86)\PICC\Drivers\stm32f4_discovery.h"
+*** Error 128 "main.c" Line 7(10,17): A #DEVICE required before this line
+*** Error 48 "main.c" Line 9(1,9): Expecting a (
+      4 Errors,  0 Warnings.
+Build Failed.
