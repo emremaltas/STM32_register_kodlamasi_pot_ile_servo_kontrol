@@ -12,47 +12,47 @@ uint32_t bekle=0;
 
 void CLOCK_Config()
 {
-	RCC->CR &= ~(1<<0);  										//dahili osilatˆr kapat˝ld˝.
-	while(!(RCC->CR & (1<<1)));									//aktifle˛mesi beklendi.
+	RCC->CR &= ~(1<<0);  									//dahili osilat√∂r kapatƒ±ldƒ±.
+	while(!(RCC->CR & (1<<1)));								//aktifle≈ümesi beklendi.
 
-	RCC->CR |= (1<<16);											//harici osilatˆr aÁ˝ld˝.
-	while(!(RCC->CR & (1<<17)));								//aktifle˛mesi beklendi.
+	RCC->CR |= (1<<16);									//harici osilat√∂r a√ßƒ±ldƒ±.
+	while(!(RCC->CR & (1<<17)));								//aktifle≈ümesi beklendi.
 
-	RCC->CR |= (1<<19);											//sistem g¸venlik ayar˝ aÁ˝ld˝.
+	RCC->CR |= (1<<19);									//sistem g√ºvenlik ayarƒ± a√ßƒ±ldƒ±.
 
-	RCC->PLLCFGR |= (1<<3);										//pllm:8
-	RCC->PLLCFGR &= ~(1<<4);									//168 Mhz ayarlamas˝ iÁin gerekli gˆr¸ld¸.
-	RCC->PLLCFGR &= ~(1<<13);									//168 Mhz ayarlamas˝ iÁin gerekli gˆr¸ld¸.
-	RCC->PLLCFGR |= (336<<6); 									//plln:336
-	RCC->PLLCFGR &=  ~(3<<16);									//pllp:2
-	RCC->PLLCFGR |= (1<<22);									//pll kana˝:hse
+	RCC->PLLCFGR |= (1<<3);									//pllm:8
+	RCC->PLLCFGR &= ~(1<<4);								//168 MHz ayarlamasƒ± i√ßin gerekli g√∂r√ºld√º.
+	RCC->PLLCFGR &= ~(1<<13);								//168 MHz ayarlamasƒ± i√ßin gerekli g√∂r√ºld√º.
+	RCC->PLLCFGR |= (336<<6); 								//plln:336
+	RCC->PLLCFGR &=  ~(3<<16);								//pllp:2
+	RCC->PLLCFGR |= (1<<22);								//pll kanaƒüƒ±:hse
 
-	RCC->CR |= (1<<24);											//pll on.
+	RCC->CR |= (1<<24);									//pll on.
 
 	while(!(RCC->CR & (1<<25)));								//pll bekleniyor.
 
-	RCC->CFGR |= (1<<1);										//sistem kayna˝ seÁiliyor.
-	while(!(RCC->CFGR & (1<<3)));								//seÁimin doruluu bekleniyor.
+	RCC->CFGR |= (1<<1);									//sistem kaynaƒüƒ± se√ßiliyor.
+	while(!(RCC->CFGR & (1<<3)));								//se√ßimin doƒüruluƒüu bekleniyor.
 }
 
 
 void GPIO_Config()
 {
-	RCC->AHB1ENR |= (1<<0);   									//a portunun clock hatt˝ aktif edildi.
+	RCC->AHB1ENR |= (1<<0);   								//a portunun clock hattƒ± aktif edildi.
 	//adc okuma icin;
 
-	GPIOA->MODER |= 0X00000003;  								//a0 analog yap˝ld˝.
-	GPIOA->OSPEEDR |= 0X00000003; 								//y¸ksek h˝z yap˝ld˝.
-	GPIOA->PUPDR &= ~(1<<0) & ~(1<<1); 						   //no pull up-down.
+	GPIOA->MODER |= 0X00000003;  								//a0 analog yapƒ±ldƒ±.
+	GPIOA->OSPEEDR |= 0X00000003; 								//y√ºksek hƒ±z yapƒ±ldƒ±.
+	GPIOA->PUPDR &= ~(1<<0) & ~(1<<1); 						        //no pull up-down.
 
 	//pwm icin;
 
-	GPIOA->MODER |= (1<<3); 								    //pin(a1) alternatif fonk. ayarland˝.
-	GPIOA->OSPEEDR |=(1<<2) | (1<<3); 							//y¸ksek h˝z yap˝ld˝.
+	GPIOA->MODER |= (1<<3); 								//pin(a1) alternatif fonk. ayarlandƒ±.
+	GPIOA->OSPEEDR |=(1<<2) | (1<<3); 							//y√ºksek hƒ±z yapƒ±ldƒ±.
 	GPIOA->PUPDR &= ~(1<<2) & ~(1<<3); 							//no pull up-down.
-	GPIOA->AFR[0] |= (1<<5); 									//af2 ayarland˝.
+	GPIOA->AFR[0] |= (1<<5); 							        //af2 ayarlandƒ±.
 
-	//bekleme fonk. iÁin;
+	//bekleme fonk. i√ßin;
 
 	SysTick_Config(SystemCoreClock/1000);
 
@@ -63,102 +63,97 @@ void SysTick_Handler()
 	if(bekle>0)
 		bekle--;
 }
-void delay_ms(uint32_t sure)										//ms t¸r¸nden bekleme fonk. olu˛turuldu.
+void delay_ms(uint32_t sure)									//ms t√ºr√ºnden bekleme fonk. olu≈üturuldu.
 {
 	bekle=sure;
 	while(bekle);
 }
 void ADC_Config()
 {
-	RCC->APB2ENR |= (1<<8);  										//adc1 clock hatt˝ aftif edildi.
+	RCC->APB2ENR |= (1<<8);  								//adc1 clock hattƒ± aftif edildi.
 
-	ADC->CCR &= ~(1<<16) & (1<<17); 								//adc clock hatt˝ 4'e bˆl¸nd¸
+	ADC->CCR &= ~(1<<16) & (1<<17); 							//adc clock hattƒ± 4'e b√∂l√ºnd√º
 
-	ADC1->CR1 &= ~(1<<24) & (1<<25); 								//adc 12 bitlik Áˆz¸n¸rl¸k seÁildi.
+	ADC1->CR1 &= ~(1<<24) & (1<<25); 							//adc 12 bitlik √ß√∂z√ºn√ºrl√ºk se√ßildi.
 
-	ADC1->CR2 |= (1<<1); 											//s¸rekli cevrim modu secildi.
-	ADC1->CR2 |= (1<<8); 											//dma secildi.
-	ADC1->CR2 |= (1<<9); 											//dma s¸rekli istek secildi.
-	ADC1->CR2 |= (1<<10); 											//eoc bayra˝n˝n kalkmas˝ istendi
-	ADC1->CR2 &= ~(1<<11); 										   //saa dayal˝ yaz˝m
+	ADC1->CR2 |= (1<<1); 									//s√ºrekli cevrim modu secildi.
+	ADC1->CR2 |= (1<<8); 									//dma secildi.
+	ADC1->CR2 |= (1<<9); 									//dma s√ºrekli istek secildi.
+	ADC1->CR2 |= (1<<10); 									//eoc bayraƒüƒ±nƒ±n kalkmasƒ± istendi
+	ADC1->CR2 &= ~(1<<11); 									//saƒüa dayalƒ± yazƒ±m
 
-	ADC1->SMPR2 |= 0X00000003; 										//56 cycle ˆrneklem ayarland˝.
-	ADC1->SQR1 &= ~(1<<20) & ~(1<<21) & ~(1<<22) & ~(1<<23);  		//okunacak adc say˝s˝ (1)
-	ADC1->SQR3 &= ~(1<<0) & ~(1<<1) & ~(1<<2) & ~(1<<3) & ~(1<<4); 	//kanal 0 ˆncelik s˝ras˝ 1 ayarland˝.
+	ADC1->SMPR2 |= 0X00000003; 								//56 cycle √∂rneklem ayarlandƒ±.
+	ADC1->SQR1 &= ~(1<<20) & ~(1<<21) & ~(1<<22) & ~(1<<23);  		                //okunacak adc sayƒ±sƒ± (1)
+	ADC1->SQR3 &= ~(1<<0) & ~(1<<1) & ~(1<<2) & ~(1<<3) & ~(1<<4); 	                        //kanal 0 √∂ncelik sƒ±rasƒ± 1 ayarlandƒ±.
 
 	ADC1->CR2 |= (1<<0);
 }
 
 void DMA_Config()
 {
-	RCC->AHB1ENR |= (1<<22); 									//dma2 clock hatt˝ aktif edildi.
-	while(DMA2_Stream0->CR & (1<<0)); 							//dma2 etkinle˛mesi beklendi.
+	RCC->AHB1ENR |= (1<<22); 								//dma2 clock hattƒ± aktif edildi.
+	while(DMA2_Stream0->CR & (1<<0)); 							//dma2 etkinle≈ümesi beklendi.
 
-	DMA2_Stream0->CR &= ~(1<<6) & ~(1<<7); 						//dma i˛lemi cevresel birimden haf˝zaya
-	DMA2_Stream0->CR |= (1<<8); 								//s¸rekli dma aktar˝m˝ ayarland˝.
+	DMA2_Stream0->CR &= ~(1<<6) & ~(1<<7); 						        //dma i≈ülemi cevresel birimden hafƒ±zaya
+	DMA2_Stream0->CR |= (1<<8); 								//s√ºrekli dma aktarƒ±mƒ± ayarlandƒ±.
 	DMA2_Stream0->CR &= ~(1<<9); 								//cevresel birimin adresinin sabit oldugunu belirttik.
-	DMA2_Stream0->CR |= (1<<10); 								//degerin yaz˝lacak yeri dei˛imi istendi
+	DMA2_Stream0->CR |= (1<<10); 								//degerin yazƒ±lacak yeri deƒüi≈üimi istendi
 	DMA2_Stream0->CR |= (1<<11); 								//cevresel birimin 16 bit oldugu belirtildi
-	DMA2_Stream0->CR |= (1<<13); 								//haf˝za biriminde 16 bit yer ay˝rt˝ld˝
-	DMA2_Stream0->CR |= (1<<17) | (1<<17); 						// y¸ksek ˆncelik verildi.
-	DMA2_Stream0->CR &= ~(1<<25) & ~(1<<26) & ~(1<<27); 		//o. kanaldan dma oluca˝ belirtildi.
+	DMA2_Stream0->CR |= (1<<13); 								//hafƒ±za biriminde 16 bit yer ayƒ±rtƒ±ldƒ±
+	DMA2_Stream0->CR |= (1<<17) | (1<<17); 						        // y√ºksek √∂ncelik verildi.
+	DMA2_Stream0->CR &= ~(1<<25) & ~(1<<26) & ~(1<<27); 		                        //o. kanaldan dma olucaƒüƒ± belirtildi.
 
-	DMA2_Stream0->NDTR = 1; 									//1 tane dma aktar˝m˝ olucak
-	DMA2_Stream0->PAR = (uint32_t) &ADC1->DR ; 					//verinin okunaca˝ adres
-	DMA2_Stream0->M0AR = (uint32_t) &adc_degeri; 				//okunan deerin yaz˝laca˝ adres
+	DMA2_Stream0->NDTR = 1; 							        //1 tane dma aktarƒ±mƒ± olucak
+	DMA2_Stream0->PAR = (uint32_t) &ADC1->DR ; 					        //verinin okunacaƒüƒ± adres
+	DMA2_Stream0->M0AR = (uint32_t) &adc_degeri; 				                //okunan deƒüerin yazƒ±lacaƒüƒ± adres
 
-	DMA2_Stream0->FCR |= (1<<0) | (1<<1); 						//tam dolu oldugunda yaz˝l˝m gerÁekle˛icek
+	DMA2_Stream0->FCR |= (1<<0) | (1<<1); 						        //tam dolu oldugunda yazƒ±lƒ±m ger√ßekle≈üicek
 
-	DMA2_Stream0->CR |= (1<<0); 								//dma2 ba˛lat˝ld˝.
+	DMA2_Stream0->CR |= (1<<0); 								//dma2 ba≈ülatƒ±ldƒ±.
 }
 
 uint32_t map(uint32_t adc_degeri,uint32_t okunacak_min,uint32_t okunacak_max,uint32_t cevrilecek_min,uint32_t cevrilecek_max)
 {
 	return cevrilecek_min + ((cevrilecek_max - cevrilecek_min) /  (okunacak_max / adc_degeri));
 }
-
 void TIMER5_Config()
 {
-	RCC->APB1ENR |= (1<<3); 					//timer'in clock hatt˝ aktif edildi
+	RCC->APB1ENR |= (1<<3); 					                      //timer'in clock hattƒ± aktif edildi
 
-	TIM5->CR1 &= ~(1<<4);   					//yukar˝ yˆnl¸ sayma secildi
-	TIM5->CR1 &= ~(1<<5) & ~(1<<6); 			// dir registerine gˆre i˛lem yap˝lcak
-	TIM5->CR1 &= ~(1<<8) & ~(1<<9);	 			//clock hatt˝ bˆl¸nmedi
-	TIM5->EGR |= (1<<0); 						//her ta˛ma sonras˝ s˝f˝rlama olucak.
-	TIM5->CCMR1 &= ~(1<<8) & ~(1<<9);   		//kanal 2 Á˝k˝s olarak seÁildi
-	TIM5->CCMR1 |= (1<<13) | (1<<14);   		// pwm1 olarak mod seÁildi
-	TIM5->CCER |= (1<<4); 						//kanal2 Á˝k˝˛˝ aktif edildi.
-	TIM5->ARR = 9999;     						//10000'e kadar say˝m
-	TIM5->PSC = 167;	  						//bˆlme oran˝
-	TIM5->CCR2 = 500;							//pulse deeri
-	TIM5->CR1 |= (1<<0); 						//sayma ba˛lat˝ld˝.
+	TIM5->CR1 &= ~(1<<4);   					        	      //yukarƒ± y√∂nl√º sayma secildi
+	TIM5->CR1 &= ~(1<<5) & ~(1<<6); 			                              // dir registerine g√∂re i≈ülem yapƒ±lcak
+	TIM5->CR1 &= ~(1<<8) & ~(1<<9);	 						      //clock hattƒ± b√∂l√ºnmedi
+	TIM5->EGR |= (1<<0); 								      //her ta≈üma sonrasƒ± sƒ±fƒ±rlama olucak.
+	TIM5->CCMR1 &= ~(1<<8) & ~(1<<9);   						      //kanal 2 √ßƒ±kƒ±s olarak se√ßildi
+	TIM5->CCMR1 |= (1<<13) | (1<<14);   					              // pwm1 olarak mod se√ßildi
+	TIM5->CCER |= (1<<4); 							  	      //kanal2 √ßƒ±kƒ±≈üƒ± aktif edildi.
+	TIM5->ARR = 9999;     								      //10000'e kadar sayƒ±m
+	TIM5->PSC = 167;	  							      //b√∂lme oranƒ±
+	TIM5->CCR2 = 500;								      //pulse deƒüeri
+	TIM5->CR1 |= (1<<0); 								      //sayma ba≈ülatƒ±ldƒ±.
 }
 
 int main(void)
 {
-	CLOCK_Config(); 						    //saat ayarlamak iÁin fonksiyon Áa˝r˝ld˝.
-	GPIO_Config();								//gp˝o ayarlar˝ iÁin fonksiyon Áa˝r˝ld˝.
-	ADC_Config();								//adc ayarlar˝ iÁin fonksiyon Áa˝r˝ld˝.
-	DMA_Config();								//dma ayarlar˝ iÁin fonksiyon Áa˝r˝ld˝.
-	TIMER5_Config();							//timer ayarlar˝ iÁin fonksiyon Áa˝r˝ld˝.
+			CLOCK_Config(); 						    //saat ayarlamak i√ßin fonksiyon √ßaƒüƒ±rƒ±ldƒ±.
+	GPIO_Config();									    //gpƒ±o ayarlarƒ± i√ßin fonksiyon √ßaƒüƒ±rƒ±ldƒ±.
+	ADC_Config();									    //adc ayarlarƒ± i√ßin fonksiyon √ßaƒüƒ±rƒ±ldƒ±.
+	DMA_Config();									    //dma ayarlarƒ± i√ßin fonksiyon √ßaƒüƒ±rƒ±ldƒ±.
+	TIMER5_Config();								    //timer ayarlarƒ± i√ßin fonksiyon √ßaƒüƒ±rƒ±ldƒ±.
 
-	ADC1->CR2 |= (1<<30); 						//adc Áevrim i˛lmemi ba˛lat˝ld˝.
+	ADC1->CR2 |= (1<<30); 								    //adc √ßevrim i≈ülmemi ba≈ülatƒ±ldƒ±.
 
 	while (1)
 	{
-
-		TIM5->CCR2 = map(adc_degeri,0,4095,500,3000);  //adc degeri 500-3000 aral˝g˝na dˆn¸˛t¸r¸l¸p pulse degeri olarak atand˝.
-		delay_ms(1000);								   //servo dˆn¸˛¸ iÁin s¸re verildi.
+		TIM5->CCR2 = map(adc_degeri,0,4095,500,3000);  				   //adc degeri 500-3000 aralƒ±gƒ±na d√∂n√º≈üt√ºr√ºl√ºp pulse degeri olarak atandƒ±.
+		delay_ms(1000);								   //servo d√∂n√º≈ü√º i√ßin s√ºre verildi.
 	}
-
 }
 
 void EVAL_AUDIO_TransferComplete_CallBack(uint32_t pBuffer, uint32_t Size){
 
 	return;
 }
-
 uint16_t EVAL_AUDIO_GetSampleCallBack(void){
-
 	return -1;
 }
