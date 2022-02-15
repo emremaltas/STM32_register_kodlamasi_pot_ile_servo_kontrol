@@ -72,7 +72,7 @@ void ADC_Config()
 {
 	RCC->APB2ENR |= (1<<8);  								//adc1 clock hattı aftif edildi.
 
-	ADC->CCR &= ~(1<<16) & (1<<17); 							//adc clock hattı 4'e bölündü
+	ADC->CCR &= ~(1<<16) & ~(1<<17); 							//adc clock hattı 4'e bölündü
 
 	ADC1->CR1 &= ~(1<<24) & (1<<25); 							//adc 12 bitlik çözünürlük seçildi.
 
