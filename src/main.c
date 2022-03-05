@@ -10,6 +10,16 @@ uint16_t adc_degeri=0;
 uint32_t bekle=0;
 
 
+void  SysTick1_Config()
+{
+	SysTick->CTRL |= SysTick_CTRL_CLKSOURCE_Msk ;
+	SysTick->CTRL |= SysTick_CTRL_TICKINT_Msk;
+	SysTick->VAL = 0 ;
+	SysTick->LOAD = 168000;
+
+	SysTick->CTRL |= SysTick_CTRL_ENABLE_Msk;
+}
+
 void CLOCK_Config()
 {
 	RCC->CR &= ~(1<<0);  									//dahili osilatör kapatıldı.
@@ -51,10 +61,6 @@ void GPIO_Config()
 	GPIOA->OSPEEDR |=(1<<2) | (1<<3); 							//yüksek hız yapıldı.
 	GPIOA->PUPDR &= ~(1<<2) & ~(1<<3); 							//no pull up-down.
 	GPIOA->AFR[0] |= (1<<5); 							        //af2 ayarlandı.
-
-	//bekleme fonk. için;
-
-	SysTick_Config(SystemCoreClock/1000);
 
 }
 
@@ -134,8 +140,8 @@ void TIMER5_Config()
 }
 
 int main(void)
-{
-			CLOCK_Config(); 						    //saat ayarlamak için fonksiyon çağırıldı.
+{	SysTick1_Config();								    //ms ekleme ayarlamaları	
+	CLOCK_Config(); 						    		    //saat ayarlamak için fonksiyon çağırıldı.
 	GPIO_Config();									    //gpıo ayarları için fonksiyon çağırıldı.
 	ADC_Config();									    //adc ayarları için fonksiyon çağırıldı.
 	DMA_Config();									    //dma ayarları için fonksiyon çağırıldı.
